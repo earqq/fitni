@@ -10,6 +10,7 @@ export default async function handler(req, res) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "User-Agent": "Mozilla/5.0",
         },
         body: JSON.stringify(req.body),
       }
