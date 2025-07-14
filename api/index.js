@@ -14,9 +14,21 @@ export default async function handler(req, res) {
       body: JSON.stringify(req.body),
     });
 
-    const data = await response.json();
-    return res.status(200).json(data);
+    const text = await response.text();
+
+    try {
+      const data = JSON.parse(text);
+      return res.status(200).json(data);
+    } catch (jsonError) {
+      return res.status(502).json({
+        error: "Invalid JSON response from Google Script",
+        rawResponse: text,
+      });
+    }
   } catch (error) {
-    return res.status(500).json({ error: "Error forwarding request", details: error.message });
+    return res.status(500).json({
+      error: "Error forwarding request",
+      details: error.message,
+    });
   }
 }
