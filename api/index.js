@@ -23,12 +23,15 @@ export default async function handler(req, res) {
       return res.status(502).json({
         error: "Invalid JSON response from Google Script",
         rawResponse: text,
+        googleStatus: response.status,
+        googleStatusText: response.statusText,
       });
     }
   } catch (error) {
     return res.status(500).json({
       error: "Error forwarding request",
       details: error.message,
+      stack: error.stack,
     });
   }
 }
